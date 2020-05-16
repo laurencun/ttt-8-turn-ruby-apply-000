@@ -1,34 +1,35 @@
-board = [" "," "," "," "," "," "," "," "," "]
-
 def display_board(board)
-  puts "  |  |  "
-  puts "--------"
-  puts "  |  |  "
-  puts "--------"
-  puts "  |  |  "
+  puts " #{board[0]} | #{board[1]} | #{board[2]} "
+  puts "-----------"
+  puts " #{board[3]} | #{board[4]} | #{board[5]} "
+  puts "-----------"
+  puts " #{board[6]} | #{board[7]} | #{board[8]} "
 end
- 
- display_board(board)
- 
+
+def input_to_index(user_input)
+  user_input.to_i - 1
+end
+
+def move(board, index, current_player = "X")
+  board[index] = current_player
+end
+
+def position_taken?(board, index)
+  board[index] != " " && board[index] != ""
+end
+
 def valid_move?(board, index)
-  if !postition_taken?(board, index) && (index).between?(0,8)
-    move(board, index, token = "X")
-    return true
-  else 
-    return false
-    #ask for another UNTIL valid_move? is true
-  end
+  index.between?(0,8) && !position_taken?(board, index)
 end
 
-def position_taken? (board, index)
-  index = index.to_i -1
-  if board[index] == "" || board[index] == " " || board[index] == nil
-    return false
+def turn(board)
+  puts "Please enter 1-9:"
+  input = gets.strip
+  index = input_to_index(input)
+  if valid_move?(board, index)
+    move(board, index)
+    display_board(board)
   else
-    return true
+    turn(board)
   end
-end
-
-def move(board, index, token = "X")
-  puts 
 end
